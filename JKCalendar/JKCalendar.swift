@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
     var test = 0
@@ -27,14 +25,15 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         loadXib()
+        collectionView.delegate = self
+        collectionView.allowsSelection = true
     }
     func loadXib(){
         let view = UINib(nibName: "JKCalendar", bundle: nil).instantiate(withOwner: self, options: nil)[0]
         addSubview(view as! UIView)
         
         self.collectionView.register(UINib(nibName: "JKCalendarHeader" , bundle:  nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "JKCalenderHeader")
-        
-        self.collectionView.register(JKCalendarCell.self, forCellWithReuseIdentifier: "JKCalendarCell")
+        self.collectionView.register(UINib(nibName:"JKCalendarCell",bundle:nil), forCellWithReuseIdentifier: "JKCalendarCell")
     }
     
     override init(frame: CGRect) {
@@ -55,8 +54,6 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
             }
         }
         return sectionDate
-
-        
     }
 }
 
@@ -64,6 +61,7 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
 extension JKCalendar{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "JKCalendarCell", for: indexPath) as! JKCalendarCell
+        cell.isUserInteractionEnabled = true
         return cell
     }
     
@@ -97,6 +95,7 @@ extension JKCalendar{
         if indexPath.row % 2 == 0 {
             cell.backgroundColor = UIColor.red
         }
+        
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -106,6 +105,15 @@ extension JKCalendar{
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 4
+    }
+}
+
+// MARK: - delegate
+extension JKCalendar{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! JKCalendarCell
+        cell.selectionView.layer.cornerRadius = cell.selectionView.bounds.width / 2.0
+        cell.selectionView.isHidden = false
     }
 }
 
@@ -132,9 +140,7 @@ extension JKCalendar{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        
-        let width = (collectionView.frame.width / 7.0 )
+        let width = Int(collectionView.frame.width) / 7
         return CGSize(width: width, height: width)
 //
     }
