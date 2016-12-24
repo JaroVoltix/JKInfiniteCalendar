@@ -40,16 +40,6 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
- 
-
-    override func prepareForInterfaceBuilder() {
-        backgroundColor = UIColor.red
-    }
-    
-    override func draw(_ rect: CGRect) {
-        backgroundColor = UIColor.red
-    }
-    
     
     func dateFor(section: Int) ->ActivityDate{
         let monthID = test + section
@@ -107,8 +97,6 @@ extension JKCalendar{
         if indexPath.row % 2 == 0 {
             cell.backgroundColor = UIColor.red
         }
-        
-        
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -145,8 +133,10 @@ extension JKCalendar{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = self.bounds.width / CGFloat(7)
+        
+        let width = (collectionView.frame.width / 7.0 )
         return CGSize(width: width, height: width)
+//
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -155,6 +145,10 @@ extension JKCalendar{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
     }
 }
 
