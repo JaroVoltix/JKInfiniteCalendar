@@ -98,8 +98,15 @@ class ActivityDate{
             month = 12
         }
     }
+    func next(months: Int) -> ActivityDate{
+        var result = ActivityDate(month:month,year:year)
+        for _ in 0 ..<  months{
+            result = result.nextMonth()
+        }
+        return result
+    }
     
-    func nextMonth() -> ActivityDate{
+    private func nextMonth() -> ActivityDate{
         var m = month
         var y = year
         m += 1
@@ -118,7 +125,15 @@ class ActivityDate{
         }
     }
     
-    func previousMonth() ->ActivityDate{
+    func previous(months: Int) -> ActivityDate{
+        var result = ActivityDate(month:month,year:year)
+        for _ in 0 ..<  months{
+            result = result.previousMonth()
+        }
+        return result
+    }
+    
+    private func previousMonth() ->ActivityDate{
         var m = month
         var y = year
         

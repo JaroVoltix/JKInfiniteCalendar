@@ -10,7 +10,7 @@ import UIKit
 
 class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
-    var test = 0
+    var monthDifference = 0
     
     let date = ActivityDate.today()
     var selectedDate:ActivityDate? = nil
@@ -42,18 +42,40 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
     }
     
     func dateFor(section: Int) ->ActivityDate{
-        let monthID = test + section
-        var sectionDate = date
-        if monthID < 0 {
-            for _ in 0 ..< (-1 * monthID){
-                sectionDate = sectionDate.previousMonth()
-            }
+        let sectionDifference = monthDifference + section
+        var sectionDate = ActivityDate(month: date.month, year: date.year)
+        if sectionDifference < 0 {
+            sectionDate = sectionDate.previous(months:sectionDifference * -1)
         }
         else{
-            for _ in 0 ..<  monthID{
-                sectionDate = sectionDate.nextMonth()
-            }
+            sectionDate = sectionDate.next(months: sectionDifference)
         }
+        return sectionDate
+    }
+    
+    func dateFor(indexPath: IndexPath) ->ActivityDate?{
+        
+        let sectionDate = dateFor(section: indexPath.section)
+        let month = sectionDate.monthInformation()
+        let weekComponents = Calendar.current.dateComponents([.month,.day,.weekday,.weekOfMonth], from: month.firstDay)
+        
+        var skipDays = weekComponents.weekday!
+        if weekComponents.weekday == 1 {
+            skipDays += 7
+        }
+        skipDays -= 2
+        
+        if indexPath.row < skipDays{
+            return nil
+        }
+        
+        let dayNumber = indexPath.row - skipDays + 1
+        let daysInMonth = month.days
+        if dayNumber - 1 >= daysInMonth {
+            return nil
+        }
+
+        sectionDate.day = dayNumber
         return sectionDate
     }
 }
@@ -70,36 +92,24 @@ extension JKCalendar{
         let cell = cell as! JKCalendarCell
         cell.isHidden = false
         
-        let sectionDate = dateFor(section: indexPath.section)
+        let sectionDate = dateFor(indexPath: indexPath)
         
-        let month = sectionDate.monthInformation()
-        let weekComponents = Calendar.current.dateComponents([.month,.day,.weekday,.weekOfMonth], from: month.firstDay)
-        
-        var skipDays = weekComponents.weekday!
-        if weekComponents.weekday == 1 {
-            skipDays += 7
-        }
-        skipDays -= 2
-        
-        if indexPath.row < skipDays{
+        if sectionDate == nil{
             cell.isHidden = true
-        }
+            return
+        }else{
+            cell.isHidden = false
         
-        let dayNumber = indexPath.row - skipDays + 1
-        let daysInMonth = month.days
-        if dayNumber - 1 >= daysInMonth {
-            cell.isHidden = true
+        cell.test.text = "\(sectionDate!.day!)"
         }
-        
-        cell.test.text = "\(dayNumber)"
         cell.backgroundColor = UIColor.white
         if indexPath.row % 2 == 0 {
             cell.backgroundColor = UIColor.red
         }
         
         if let selectedDate = selectedDate{
-            if sectionDate.year == selectedDate.year && sectionDate.month ==                
-                selectedDate.month && indexPath.row == selectedDate.day{
+            if sectionDate!.year == selectedDate.year && sectionDate!.month ==
+                selectedDate.month && sectionDate!.day == selectedDate.day{
                 cell.selectionView.layer.cornerRadius = cell.selectionView.bounds.width / 2.0
 
                 cell.selectionView.isHidden = false
@@ -126,9 +136,8 @@ extension JKCalendar{
 // MARK: - delegate
 extension JKCalendar{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! JKCalendarCell
-        selectedDate = dateFor(section: indexPath.section)
-        selectedDate?.day = indexPath.row
+    
+        selectedDate = dateFor(indexPath: indexPath)
         collectionView.reloadData()
     }
 }
@@ -188,12 +197,12 @@ extension JKCalendar{
         let distanceFromCenter = currentOffset.y - centerOffsetX
         if distanceFromCenter > contentWidth / 4.0 {
             collectionView.contentOffset = CGPoint(x: currentOffset.x, y: centerOffsetX)
-            test += 1
+            monthDifference += 1
             collectionView.reloadData()
         }
         else if distanceFromCenter <  -1 * contentWidth / 4.0{
             collectionView.contentOffset = CGPoint(x: currentOffset.x  , y: centerOffsetX)
-            test -= 1
+            monthDifference -= 1
             collectionView.reloadData()
         }
     }
