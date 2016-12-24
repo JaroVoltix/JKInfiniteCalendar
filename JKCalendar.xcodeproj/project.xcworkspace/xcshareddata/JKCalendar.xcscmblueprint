@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3633eca6-2008-4210-96d8-cabd2e9aa4d7++725",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "3633eca6-2008-4210-96d8-cabd2e9aa4d7++725" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3633eca6-2008-4210-96d8-cabd2e9aa4d7++725" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C7F236B6-2D6E-48A4-948B-8330D05A00EB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3633eca6-2008-4210-96d8-cabd2e9aa4d7++725" : "Presell\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "JKCalendar",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "JKCalendar\/JKCalendar.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/biuro.ekspert.biz\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3633eca6-2008-4210-96d8-cabd2e9aa4d7++725"
+    }
+  ]
+}
