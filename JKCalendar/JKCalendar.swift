@@ -13,6 +13,7 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
     var test = 0
     
     let date = ActivityDate.today()
+    var selectedDate:ActivityDate? = nil
     
     @IBOutlet var collectionView: UICollectionView!
     
@@ -68,9 +69,9 @@ extension JKCalendar{
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as! JKCalendarCell
         cell.isHidden = false
-
+        
         let sectionDate = dateFor(section: indexPath.section)
-       
+        
         let month = sectionDate.monthInformation()
         let weekComponents = Calendar.current.dateComponents([.month,.day,.weekday,.weekOfMonth], from: month.firstDay)
         
@@ -96,10 +97,24 @@ extension JKCalendar{
             cell.backgroundColor = UIColor.red
         }
         
+        if let selectedDate = selectedDate{
+            if sectionDate.year == selectedDate.year && sectionDate.month ==                
+                selectedDate.month && indexPath.row == selectedDate.day{
+                cell.selectionView.layer.cornerRadius = cell.selectionView.bounds.width / 2.0
+
+                cell.selectionView.isHidden = false
+            }
+            else{
+                cell.selectionView.isHidden = true
+            }
+
+        }else{
+            cell.selectionView.isHidden = true
+        }
+        
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return 42
     }
     
@@ -112,8 +127,9 @@ extension JKCalendar{
 extension JKCalendar{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! JKCalendarCell
-        cell.selectionView.layer.cornerRadius = cell.selectionView.bounds.width / 2.0
-        cell.selectionView.isHidden = false
+        selectedDate = dateFor(section: indexPath.section)
+        selectedDate?.day = indexPath.row
+        collectionView.reloadData()
     }
 }
 
@@ -130,7 +146,7 @@ extension JKCalendar{
         case UICollectionElementKindSectionHeader:
             let header =  collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "JKCalenderHeader", for: indexPath) as! JKCalendarHeader
             let sectionDate = dateFor(section: indexPath.section)
-           
+            
             header.monthLabel.text = sectionDate.monthAndYear
             return header
             
@@ -142,7 +158,7 @@ extension JKCalendar{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = Int(collectionView.frame.width) / 7
         return CGSize(width: width, height: width)
-//
+        //
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
