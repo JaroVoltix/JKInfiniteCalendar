@@ -10,17 +10,19 @@ import UIKit
 
 class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet var collectionView: UICollectionView!
+    
+    @IBOutlet var weekDayLabel: UILabel!
+    @IBOutlet var dayLabel: UILabel!
+    @IBOutlet var monthLabel: UILabel!
+    @IBOutlet var yearLabel: UILabel!
     var monthDifference = 0
     
     let date = ActivityDate.today()
     var selectedDate:ActivityDate? = nil
     
-    @IBOutlet var collectionView: UICollectionView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.collectionView.frame = self.bounds
-        self.collectionView.translatesAutoresizingMaskIntoConstraints = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,10 +31,11 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
         collectionView.delegate = self
         collectionView.allowsSelection = true
     }
+    
     func loadXib(){
-        let view = UINib(nibName: "JKCalendar", bundle: nil).instantiate(withOwner: self, options: nil)[0]
-        addSubview(view as! UIView)
-        
+        let view = UINib(nibName: "JKCalendar", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! UIView
+        view.frame = self.bounds
+        addSubview(view)
         self.collectionView.register(UINib(nibName: "JKCalendarHeader" , bundle:  nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "JKCalenderHeader")
         self.collectionView.register(UINib(nibName:"JKCalendarCell",bundle:nil), forCellWithReuseIdentifier: "JKCalendarCell")
     }
@@ -74,7 +77,7 @@ class JKCalendar: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UIC
         if dayNumber - 1 >= daysInMonth {
             return nil
         }
-
+        
         sectionDate.day = dayNumber
         return sectionDate
     }
@@ -99,25 +102,21 @@ extension JKCalendar{
             return
         }else{
             cell.isHidden = false
-        
-        cell.test.text = "\(sectionDate!.day!)"
-        }
-        cell.backgroundColor = UIColor.white
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = UIColor.red
+            
+            cell.test.text = "\(sectionDate!.day!)"
         }
         
         if let selectedDate = selectedDate{
             if sectionDate!.year == selectedDate.year && sectionDate!.month ==
                 selectedDate.month && sectionDate!.day == selectedDate.day{
                 cell.selectionView.layer.cornerRadius = cell.selectionView.bounds.width / 2.0
-
+                
                 cell.selectionView.isHidden = false
             }
             else{
                 cell.selectionView.isHidden = true
             }
-
+            
         }else{
             cell.selectionView.isHidden = true
         }
@@ -136,8 +135,11 @@ extension JKCalendar{
 // MARK: - delegate
 extension JKCalendar{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
         selectedDate = dateFor(indexPath: indexPath)
+        dayLabel.text = selectedDate?.string(format: "d")
+        monthLabel.text = selectedDate?.string(format: "MMM")
+        yearLabel.text = selectedDate?.string(format: "yyyy")
+        weekDayLabel.text = selectedDate?.string(format: "EEEE")
         collectionView.reloadData()
     }
 }

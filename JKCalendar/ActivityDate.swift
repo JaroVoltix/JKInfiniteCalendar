@@ -69,12 +69,16 @@ class ActivityDate{
     
     var monthAndYear:String{
         get{
-        let date = ActivityDate.dateFrom(string:"\(month) \(year)",format:"MM yyyy")
-        dateFormatter.dateFormat = "MMMM yyyy"
-        return dateFormatter.string(from: date)
+            return  string(format:"MMMM yyyy")
         }
     }
     
+    func string(format:String) ->String{
+        let date = ActivityDate.dateFrom(string:"\(month) \(year) \(day!)",format:"MM yyyy dd")
+        
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: date)
+    }
     var monthString:String{
         get{
             let date = ActivityDate.dateFrom(string:"\(month) \(year)",format:"MM yyyy")
