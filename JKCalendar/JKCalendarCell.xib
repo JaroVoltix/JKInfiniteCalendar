@@ -47,8 +47,8 @@
                 <constraint firstAttribute="bottom" secondItem="ZO9-Hv-JcL" secondAttribute="bottom" id="yXL-5E-UQ7"/>
             </constraints>
             <connections>
+                <outlet property="dayLabel" destination="i7v-IT-JOo" id="f9G-aZ-qfs"/>
                 <outlet property="selectionView" destination="ZO9-Hv-JcL" id="yD8-GW-mKc"/>
-                <outlet property="test" destination="i7v-IT-JOo" id="ad8-Zx-JTY"/>
             </connections>
             <point key="canvasLocation" x="4" y="-365"/>
         </collectionViewCell>

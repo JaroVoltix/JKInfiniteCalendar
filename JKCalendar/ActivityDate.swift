@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ActivityDate{
+public class ActivityDate{
     var month:Int
     var year:Int
     var day:Int?
@@ -22,28 +22,41 @@ class ActivityDate{
             return dateFormatter.string(from: self.toDate()).capitalized
         }
     }
+    var isWeekendDay:Bool{
+        get{
+            return Calendar.current.isDateInWeekend(toDate())
+        }
+    }
+    static func ==(left:ActivityDate,right:ActivityDate) -> Bool{
+        if left.day == right.day
+            && left.month == right.month
+            && left.year == right.year{
+            return true
+        }
+        return false
+    }
     
-    convenience init(month:Int, year:Int) {
+    public convenience init(month:Int, year:Int) {
         self.init(month:month, year:year ,day:1)
     }
     
-    init(month:Int, year:Int, day:Int) {
+    public init(month:Int, year:Int, day:Int) {
         self.month = month;
         self.year = year
         self.day = day
         dateFormatter = ActivityDate.createTimeFormatter()
     }
-   
     
     
-    static func createTimeFormatter() -> DateFormatter{
+    
+    public static func createTimeFormatter() -> DateFormatter{
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: ActivityDate.PL_LOCALE)
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         return dateFormatter
     }
     
-    convenience init( from :String, format:String){
+    public convenience init( from :String, format:String){
         let date = ActivityDate.dateFrom(string:from,format:format)
         let components = Calendar.current.dateComponents([.day, .month, .year], from: date)
         
@@ -54,7 +67,7 @@ class ActivityDate{
         }
     }
     
-    static func dateFrom(string:String, format:String) ->Date{
+    public static func dateFrom(string:String, format:String) ->Date{
         let dateFormatter = createTimeFormatter()
         dateFormatter.dateFormat = format
         let date = dateFormatter.date(from: string)!
@@ -62,32 +75,32 @@ class ActivityDate{
         return date
     }
     
-    static func today() ->ActivityDate{
+    public static func today() ->ActivityDate{
         let components = Calendar.current.dateComponents([.day, .month,.year], from: Date())
         return ActivityDate(month: components.month!, year: components.year!, day: components.day!)
     }
     
-    var monthAndYear:String{
+    public var monthAndYear:String{
         get{
             return  string(format:"MMMM yyyy")
         }
     }
     
-    func string(format:String) ->String{
+    public func string(format:String) ->String{
         let date = ActivityDate.dateFrom(string:"\(month) \(year) \(day!)",format:"MM yyyy dd")
         
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: date)
     }
-    var monthString:String{
+    public var monthString:String{
         get{
             let date = ActivityDate.dateFrom(string:"\(month) \(year)",format:"MM yyyy")
             dateFormatter.dateFormat = "MMMM"
             return dateFormatter.string(from: date)
-
+            
         }
     }
-    func skipMonth(){
+    public func skipMonth(){
         month += 1
         if month > 12 {
             year += 1
@@ -95,14 +108,14 @@ class ActivityDate{
         }
     }
     
-    func goToPreviousMonth(){
+    public func goToPreviousMonth(){
         month -= 1
         if month < 1 {
             year -= 1
             month = 12
         }
     }
-    func next(months: Int) -> ActivityDate{
+    public func next(months: Int) -> ActivityDate{
         var result = ActivityDate(month:month,year:year)
         for _ in 0 ..<  months{
             result = result.nextMonth()
@@ -121,7 +134,7 @@ class ActivityDate{
         return ActivityDate(month: m, year: y)
     }
     
-    func toDate() -> Date{
+    public func toDate() -> Date{
         if day == nil {
             return ActivityDate.dateFrom(string: "\(year) \(month)", format: "yyyy MM")
         }else {
@@ -129,7 +142,7 @@ class ActivityDate{
         }
     }
     
-    func previous(months: Int) -> ActivityDate{
+    public func previous(months: Int) -> ActivityDate{
         var result = ActivityDate(month:month,year:year)
         for _ in 0 ..<  months{
             result = result.previousMonth()
@@ -149,7 +162,7 @@ class ActivityDate{
         return ActivityDate(month: m, year: y)
     }
     
-    func next(days: Int) ->ActivityDate{
+    public func next(days: Int) ->ActivityDate{
         
         let result = ActivityDate(month: month, year: year, day: day! + days)
         

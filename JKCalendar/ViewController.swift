@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import JKInfniniteCalendar
 
 class ViewController: UIViewController {
 
+    @IBOutlet var calendar: JKCalendar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        calendar.selectedDate = ActivityDate.today().next(days: 1)
     }
 
     override func didReceiveMemoryWarning() {

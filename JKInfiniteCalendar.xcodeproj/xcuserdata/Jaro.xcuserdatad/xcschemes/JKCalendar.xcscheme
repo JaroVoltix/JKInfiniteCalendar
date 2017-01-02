@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4A5DDACE1E0C429E00BFCC65"
-               BuildableName = "JKCalendar.app"
-               BlueprintName = "JKCalendar"
-               ReferencedContainer = "container:JKCalendar.xcodeproj">
+               BuildableName = "Example.app"
+               BlueprintName = "Example"
+               ReferencedContainer = "container:JKInfiniteCalendar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A5DDACE1E0C429E00BFCC65"
-            BuildableName = "JKCalendar.app"
-            BlueprintName = "JKCalendar"
-            ReferencedContainer = "container:JKCalendar.xcodeproj">
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:JKInfiniteCalendar.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A5DDACE1E0C429E00BFCC65"
-            BuildableName = "JKCalendar.app"
-            BlueprintName = "JKCalendar"
-            ReferencedContainer = "container:JKCalendar.xcodeproj">
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:JKInfiniteCalendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A5DDACE1E0C429E00BFCC65"
-            BuildableName = "JKCalendar.app"
-            BlueprintName = "JKCalendar"
-            ReferencedContainer = "container:JKCalendar.xcodeproj">
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:JKInfiniteCalendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

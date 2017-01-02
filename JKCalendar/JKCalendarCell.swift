@@ -9,7 +9,6 @@
 import UIKit
 
 class JKCalendarCell: UICollectionViewCell {
-    @IBOutlet var test: UILabel!
+    @IBOutlet var dayLabel: UILabel!
     @IBOutlet var selectionView: UIView!
-
 }
