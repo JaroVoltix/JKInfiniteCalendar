@@ -10,7 +10,7 @@ import UIKit
 
 public class JKCalendar: UIView,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet public var collectionView: UICollectionView!
     
     @IBOutlet var weekDayLabel: UILabel!
     @IBOutlet var dayLabel: UILabel!
@@ -47,16 +47,30 @@ public class JKCalendar: UIView,UICollectionViewDelegate,UICollectionViewDelegat
     }
     
     func loadXib(){
-        let bundle = Bundle(identifier: "ekspert.biz.JKInfiniteCalendar")
+        let bundle = Bundle(identifier: "jerronimo.JKInfiniteCalendar")
         let view = UINib(nibName: "JKCalendar", bundle: bundle).instantiate(withOwner: self, options: nil)[0] as! UIView
         view.frame = self.bounds
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: view, attribute: .height, multiplier: 1, constant: 0))
+        
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0))
+        
         addSubview(view)
         self.collectionView.register(UINib(nibName: "JKCalendarHeader" , bundle:  bundle), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "JKCalenderHeader")
         self.collectionView.register(UINib(nibName:"JKCalendarCell",bundle:bundle), forCellWithReuseIdentifier: "JKCalendarCell")
-    }
+       }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
+        loadXib()
+        collectionView.delegate = self
+        collectionView.allowsSelection = true
+        initialDate = ActivityDate.today()
+        selectedDate = initialDate
     }
     
     func dateFor(section: Int) ->ActivityDate{
@@ -214,12 +228,16 @@ extension JKCalendar{
         if distanceFromCenter > contentWidth / 4.0 {
             collectionView.contentOffset = CGPoint(x: currentOffset.x, y: centerOffsetX)
             monthDifference += 1
-            collectionView.reloadData()
+            DispatchQueue.main.async{
+                self.collectionView.reloadData()
+            }
         }
         else if distanceFromCenter <  -1 * contentWidth / 4.0{
             collectionView.contentOffset = CGPoint(x: currentOffset.x  , y: centerOffsetX)
             monthDifference -= 1
-            collectionView.reloadData()
+            DispatchQueue.main.async{
+                self.collectionView.reloadData()
+            }
         }
     }
 }

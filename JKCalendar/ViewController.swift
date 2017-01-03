@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import JKInfniniteCalendar
+import JKInfiniteCalendar
 
 class ViewController: UIViewController {
 
