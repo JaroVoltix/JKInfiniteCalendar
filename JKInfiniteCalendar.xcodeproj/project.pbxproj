@@ -208,6 +208,7 @@
 					4A80D7F11E1A8541003C87B3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 7MVJHY6Y9U;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
